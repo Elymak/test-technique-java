@@ -28,6 +28,14 @@
             <div ng-controller="EventsController as events" ng-cloak class="ng-cloak">
                 <div class="" ng-hide="events.events.length">Aucun Event trouvé</div>
 
+                <!-- input for searching events filtered by member name of a band -->
+                <div>
+                    <form>
+                        <input class="filter" id="searchEvent" value="" ng-model="queryFilter" placeholder="Filter by member name of a band">
+                        <button type="button" ng-click="events.getFilteredEvents(queryFilter)">Search</button>
+                    </form>
+                </div>
+
                 <div class="media" ng-repeat="event in events.events track by event.id">
                     <div class="media-left">
                         <a href="#">

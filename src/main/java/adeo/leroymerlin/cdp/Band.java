@@ -12,8 +12,11 @@ public class Band {
 
     private String name;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Member> members;
+
+    @ManyToMany(mappedBy = "bands", cascade = CascadeType.ALL)
+    private Set<Event> events;
 
     public Set<Member> getMembers() {
         return members;

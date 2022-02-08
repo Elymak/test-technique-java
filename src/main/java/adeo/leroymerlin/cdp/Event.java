@@ -13,7 +13,12 @@ public class Event {
 
     private String imgUrl;
 
-    @OneToMany(fetch=FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "event_bands",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "bands_id")
+    )
     private Set<Band> bands;
 
     private Integer nbStars;

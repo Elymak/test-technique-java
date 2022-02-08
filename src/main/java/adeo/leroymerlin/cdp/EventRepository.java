@@ -1,14 +1,16 @@
 package adeo.leroymerlin.cdp;
 
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Transactional(readOnly = true)
-public interface EventRepository extends Repository<Event, Long> {
+@Transactional
+public interface EventRepository extends CrudRepository<Event, Long> {
 
     void delete(Long eventId);
 
-    List<Event> findAllBy();
+    List<Event> findAll();
+
+    Event save(Event event);
 }

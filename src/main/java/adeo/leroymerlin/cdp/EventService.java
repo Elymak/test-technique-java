@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventService {
@@ -16,7 +17,7 @@ public class EventService {
     }
 
     public List<Event> getEvents() {
-        return eventRepository.findAllBy();
+        return eventRepository.findAll();
     }
 
     public void delete(Long id) {
@@ -24,9 +25,20 @@ public class EventService {
     }
 
     public List<Event> getFilteredEvents(String query) {
-        List<Event> events = eventRepository.findAllBy();
-        // Filter the events list in pure JAVA here
+        List<Event> events = eventRepository.findAll();
+        List<Event> filteredEvents = filterEvents(query, events);
+        return filteredEvents;
+    }
 
-        return events;
+    public List<Event> filterEvents(String query, List<Event> events) {
+        // Filter the events list in pure JAVA here
+        return events.stream().filter(e ->
+                e.getBands().stream()
+                        .anyMatch(b -> b.getMembers().stream()
+                                .anyMatch(member -> member.getName().toUpperCase().contains(query.toUpperCase())))).collect(Collectors.toList());
+    }
+
+    public void saveEvent(Long id, Event event) {
+        eventRepository.save(event);
     }
 }
